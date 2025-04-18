@@ -114,21 +114,15 @@ const Home = () => {
     },
     container: {
       width: "100%",
-      maxWidth: "1200px",
       margin: "0 auto",
-      padding: "0 16px",
-      boxSizing: "border-box",
+      padding: "0",
     },
     gradientBg: {
       background: "linear-gradient(to right, #4f46e5, #9333ea)",
       color: "white",
-      width: "100%",
-      overflow: "hidden",
     },
     indigo50: {
       backgroundColor: "#eef2ff",
-      width: "100%",
-      overflow: "hidden",
     },
     numberCircle: {
       width: 48,
@@ -156,14 +150,13 @@ const Home = () => {
   };
 
   return (
-    <Layout style={{ width: "100%", overflow: "hidden" }}>
+    <Layout>
       {/* Navigation */}
       <Header
         style={{
           background: "white",
           boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
           width: "100%",
-          padding: "0 16px",
         }}
       >
         <div style={styles.container}>
@@ -182,17 +175,18 @@ const Home = () => {
         </div>
       </Header>
 
-      <Content style={{ width: "100%", margin: 0, padding: 0, overflow: "hidden" }}>
+      <Content style={{ width: "100%", margin: 0, padding: 0 }}>
         {/* Hero Section */}
-        <div style={{ width: "100%", padding: "80px 0 64px", overflow: "hidden" }}>
-          <div style={styles.container}>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ width: "100%", textAlign: "center", maxWidth: "800px" }}>
+        <div className="py-20" style={{ width: "100%" }}>
+          <div className="container mx-auto px-0" style={{ width: "100%" }}>
+            <div className="flex justify-center">
+              <div className="w-full text-center md:w-2/3 lg:w-1/2">
                 <div
                   style={{
                     opacity: isVisible ? 1 : 0,
                     transform: isVisible ? "translateY(0)" : "translateY(20px)",
                     transition: "all 0.7s ease",
+                    padding: "80px 0 64px",
                   }}
                 >
                   <Title
@@ -207,7 +201,7 @@ const Home = () => {
                     이력서를 업로드하고 실전처럼 AI 면접을 경험해보세요. 맞춤형 질문과 즉각적인
                     피드백으로 면접 성공률을 높여드립니다.
                   </Paragraph>
-                  <Space size="middle" style={{ display: "flex", justifyContent: "center" }}>
+                  <Space size="middle" className="justify-center">
                     <Button type="primary" size="large" style={{ height: 48, padding: "0 24px" }}>
                       면접 시작하기
                     </Button>
@@ -222,7 +216,7 @@ const Home = () => {
         </div>
 
         {/* Features */}
-        <div style={{ padding: "64px 0", background: "white", width: "100%", overflow: "hidden" }}>
+        <div style={{ padding: "64px 0", background: "white" }}>
           <div style={styles.container}>
             <div style={{ textAlign: "center", marginBottom: 48 }}>
               <Title level={2} style={{ fontSize: "2rem", marginBottom: 16 }}>
@@ -295,7 +289,7 @@ const Home = () => {
         </div>
 
         {/* Benefits */}
-        <div style={{ padding: "64px 0", background: "white", width: "100%", overflow: "hidden" }}>
+        <div style={{ padding: "64px 0", background: "white" }}>
           <div style={styles.container}>
             <Row gutter={[48, 48]} align="middle">
               <Col xs={24} md={12}>
@@ -457,7 +451,7 @@ const Home = () => {
         </div>
 
         {/* Statistics */}
-        <div style={{ padding: "64px 0", background: "white", width: "100%", overflow: "hidden" }}>
+        <div style={{ padding: "64px 0", background: "white" }}>
           <div style={styles.container}>
             <Row gutter={[32, 32]}>
               <Col xs={24} sm={12} md={6}>
@@ -498,7 +492,7 @@ const Home = () => {
 
         {/* CTA */}
         <div style={styles.gradientBg}>
-          <div style={{ ...styles.container, padding: "64px 0", textAlign: "center" }}>
+          <div style={{ ...styles.container, padding: "64px 24px", textAlign: "center" }}>
             <Title level={2} style={{ color: "white", marginBottom: 16 }}>
               지금 바로 면접 연습을 시작하세요
             </Title>
@@ -531,15 +525,7 @@ const Home = () => {
       </Content>
 
       {/* Footer */}
-      <Footer
-        style={{
-          background: "#111827",
-          padding: "48px 0 24px",
-          width: "100%",
-          margin: 0,
-          overflow: "hidden",
-        }}
-      >
+      <Footer style={{ background: "#111827", padding: "48px 0 24px", width: "100%", margin: 0 }}>
         <div style={styles.container}>
           <Row gutter={[48, 32]}>
             <Col xs={24} md={8}>

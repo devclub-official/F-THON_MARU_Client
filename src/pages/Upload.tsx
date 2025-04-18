@@ -147,7 +147,7 @@ const UploadPage = () => {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              AI 코치와 함께하는 첫걸음
+              MARU와 함께하는 첫걸음
             </Title>
             <Paragraph
               style={{

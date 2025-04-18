@@ -52,7 +52,6 @@ const Result = () => {
 
   useEffect(() => {
     if (parsedResult) {
-      console.log("스토어에서 파싱된 데이터 사용:", parsedResult);
       processResult(parsedResult);
     } else if (messages && messages.length > 0) {
       try {

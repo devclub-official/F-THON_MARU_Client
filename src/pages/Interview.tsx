@@ -70,6 +70,7 @@ const MessageDisplay = ({ content }: { content: string }) => {
           style={{
             backgroundColor: token.colorPrimary,
             boxShadow: token.boxShadowTertiary,
+            transition: "none",
           }}
         />
       </Col>
@@ -79,6 +80,7 @@ const MessageDisplay = ({ content }: { content: string }) => {
           style={{
             backgroundColor: token.colorBgLayout,
             borderRadius: token.borderRadiusLG,
+            transition: "none",
           }}
         >
           <Space direction="vertical" size="small">
@@ -190,6 +192,7 @@ const Interview = () => {
                 marginBottom: "24px",
                 borderRadius: token.borderRadiusLG,
                 boxShadow: token.boxShadowTertiary,
+                transition: "none",
               }}
               title={
                 <Space>
@@ -214,6 +217,7 @@ const Interview = () => {
               style={{
                 borderRadius: token.borderRadiusLG,
                 boxShadow: token.boxShadowTertiary,
+                transition: "none",
               }}
               bodyStyle={{ padding: "24px" }}
             >
@@ -222,6 +226,7 @@ const Interview = () => {
                   style={{
                     backgroundColor: token.colorBgLayout,
                     borderRadius: token.borderRadiusLG,
+                    transition: "none",
                   }}
                 >
                   <MessageDisplay content={lastAssistantMessage} />
@@ -270,6 +275,7 @@ const Interview = () => {
                             style={{
                               borderRadius: token.borderRadiusLG,
                               height: "40px",
+                              transition: "none",
                             }}
                           >
                             코칭 종료
@@ -285,6 +291,7 @@ const Interview = () => {
                               background: "linear-gradient(to right, #4f46e5, #9333ea)",
                               borderRadius: token.borderRadiusLG,
                               height: "40px",
+                              transition: "none",
                             }}
                           >
                             {answer.trim() ? "답변 제출" : "다음 주제"}

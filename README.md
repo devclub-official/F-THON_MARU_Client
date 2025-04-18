@@ -1,11 +1,5 @@
 # MARU - F-THON Client
 
-<div align="center">
-  <img src="public/logo.png" alt="MARU Logo" width="200" height="200">
-  <br />
-  <h3>🌟 MARU - 새로운 방식의 소통 플랫폼</h3>
-</div>
-
 ## 📚 프로젝트 소개
 
 MARU는 현대적이고 효율적인 소통 플랫폼을 제공하는 웹 애플리케이션입니다. React와 TypeScript를 기반으로 구축되었으며, 최신 웹 기술을 활용하여 사용자 친화적인 인터페이스를 제공합니다.

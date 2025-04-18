@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Button,
   Input,
@@ -12,7 +12,6 @@ import {
   Col,
   Steps,
   theme,
-  Alert,
   Tooltip,
 } from "antd";
 import usePromptStore from "../store/promptStore";
@@ -26,9 +25,9 @@ import {
   RightOutlined,
   LoadingOutlined,
   BulbOutlined,
-  RocketOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+import type { TextAreaRef } from "antd/es/input/TextArea";
 
 const { TextArea } = Input;
 const { Title, Text, Paragraph } = Typography;
@@ -105,6 +104,7 @@ const Interview = () => {
   const { messages, setMessages, fileName, pdfBase64 } = usePromptStore();
   const navigate = useNavigate();
   const { token } = useToken();
+  const textAreaRef = useRef<TextAreaRef>(null);
 
   const handleMessageSend = async (content: string) => {
     if (isLoading) return;
@@ -122,6 +122,11 @@ const Interview = () => {
       setAnswer("");
       setMessages(response.messages);
 
+      if (content !== COMMAND.STOP) {
+        setTimeout(() => {
+          textAreaRef.current?.focus();
+        }, 0);
+      }
       if (content === COMMAND.STOP) navigate("/result");
     } catch (error) {
       console.error("메시지 전송 중 에러 발생:", error);
@@ -164,7 +169,7 @@ const Interview = () => {
                   WebkitTextFillColor: "transparent",
                 }}
               >
-                AI 코치와 함께하는 성장 대화
+                MARU와 함께하는 성장 대화
               </Title>
               <Paragraph
                 style={{
@@ -213,25 +218,6 @@ const Interview = () => {
               bodyStyle={{ padding: "24px" }}
             >
               <Space direction="vertical" size="large" style={{ width: "100%" }}>
-                <Alert
-                  message="현재 진행 중인 주제"
-                  description={
-                    <Space direction="vertical">
-                      <Text>구체적인 경험과 기술을 바탕으로 답변해주세요.</Text>
-                      <Text type="secondary">
-                        💡 Enter를 눌러 답변하면 더 깊이 있는 대화를 이어갑니다
-                      </Text>
-                    </Space>
-                  }
-                  type="info"
-                  showIcon
-                  icon={<InfoCircleOutlined style={{ color: token.colorPrimary }} />}
-                  style={{
-                    marginBottom: 24,
-                    borderRadius: token.borderRadiusLG,
-                  }}
-                />
-
                 <Card
                   style={{
                     backgroundColor: token.colorBgLayout,
@@ -244,6 +230,7 @@ const Interview = () => {
                 <div>
                   <div style={{ position: "relative" }}>
                     <TextArea
+                      ref={textAreaRef}
                       value={answer}
                       onChange={(e) => setAnswer(e.target.value)}
                       placeholder="답변을 입력하고 Enter를 누르면 AI 코치와 심층 대화를 이어갑니다."

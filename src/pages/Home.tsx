@@ -41,42 +41,37 @@ const Home = () => {
     {
       icon: <FileTextOutlined style={{ fontSize: 40, color: "#4f46e5" }} />,
       title: "이력서 분석",
-      desc: "AI가 이력서를 분석해 맞춤형 질문을 생성합니다.",
+      desc: "AI가 이력서를 분석해 맞춤형 학습 계획을 제시합니다.",
     },
     {
       icon: <RobotOutlined style={{ fontSize: 40, color: "#9333ea" }} />,
-      title: "AI 면접",
-      desc: "대화형 인터뷰로 실전처럼 연습할 수 있습니다.",
+      title: "AI 코칭",
+      desc: "대화형 학습으로 실무 역량을 키울 수 있습니다.",
     },
     {
       icon: <BarChartOutlined style={{ fontSize: 40, color: "#db2777" }} />,
-      title: "피드백 제공",
-      desc: "답변에 따른 분석 및 개선 포인트를 알려줍니다.",
+      title: "성장 분석",
+      desc: "학습 과정에 따른 역량 분석 및 개선 방향을 제시합니다.",
     },
   ];
 
-  const benefits = [
-    "실제 면접 분위기와 유사",
-    "이력서 기반 질문 생성",
-    "즉각적인 피드백",
-    "자신감 향상",
-  ];
+  const benefits = ["실무 중심 학습", "맞춤형 커리큘럼", "즉각적인 피드백", "역량 향상"];
 
   const testimonials = [
     {
       name: "김지은",
       position: "SW 개발자",
-      text: "AI 면접 연습 덕분에 실제 면접에서 자신감 있게 대답할 수 있었어요. 정말 추천합니다!",
+      text: "AI 코칭 덕분에 실무에서 필요한 역량을 효과적으로 키울 수 있었어요. 정말 추천합니다!",
     },
     {
       name: "이민수",
       position: "UX 디자이너",
-      text: "이력서 기반 질문이 실제 면접과 너무 유사해서 놀랐어요. 완벽한 연습이 되었습니다.",
+      text: "맞춤형 학습 계획이 실무와 너무 잘 맞아서 놀랐어요. 체계적인 성장이 가능했습니다.",
     },
     {
       name: "박소영",
       position: "마케팅 매니저",
-      text: "피드백이 구체적이고 도움이 많이 되었어요. 덕분에 취업에 성공했습니다!",
+      text: "구체적인 피드백으로 부족한 부분을 명확히 알 수 있었어요. 덕분에 실력이 많이 늘었습니다!",
     },
   ];
 
@@ -84,17 +79,17 @@ const Home = () => {
     {
       icon: <UploadOutlined style={{ fontSize: 24, color: "white" }} />,
       title: "이력서 업로드",
-      desc: "경력, 기술 스택, 자기소개서를 포함한 이력서를 업로드합니다.",
+      desc: "경력, 기술 스택, 목표를 포함한 이력서를 업로드합니다.",
     },
     {
       icon: <TeamOutlined style={{ fontSize: 24, color: "white" }} />,
-      title: "AI 면접 진행",
-      desc: "이력서 기반 맞춤형 질문에 답변하며 실전처럼 면접을 진행합니다.",
+      title: "AI 코칭 시작",
+      desc: "맞춤형 학습과 실전 연습을 통해 실무 역량을 키웁니다.",
     },
     {
       icon: <BulbOutlined style={{ fontSize: 24, color: "white" }} />,
-      title: "피드백 받기",
-      desc: "답변에 대한 분석과 개선점을 확인하고 실력을 향상시킵니다.",
+      title: "성장 분석",
+      desc: "학습 과정에 대한 분석과 개선점을 확인하고 지속적으로 발전합니다.",
     },
   ];
 
@@ -165,7 +160,7 @@ const Home = () => {
           <Row justify="space-between" align="middle">
             <Col>
               <Title level={3} style={styles.headerTitle}>
-                AI 면접관
+                MARU
               </Title>
             </Col>
             <Col>
@@ -195,13 +190,13 @@ const Home = () => {
                     level={1}
                     style={{ ...styles.gradientTitle, fontSize: "2.5rem", marginBottom: 24 }}
                   >
-                    AI 기술 면접관으로
+                    MARU로
                     <br />
-                    면접 준비를 완벽하게
+                    커리어 성장을 가속화하세요
                   </Title>
                   <Paragraph style={{ fontSize: "1.125rem", color: "#4b5563", marginBottom: 32 }}>
-                    이력서를 업로드하고 실전처럼 AI 면접을 경험해보세요. 맞춤형 질문과 즉각적인
-                    피드백으로 면접 성공률을 높여드립니다.
+                    이력서를 업로드하고 AI 코칭을 경험해보세요. 맞춤형 학습과 즉각적인 피드백으로
+                    실무 역량을 키워드립니다.
                   </Paragraph>
                   <Space size="middle" className="justify-center">
                     <Button
@@ -210,12 +205,12 @@ const Home = () => {
                       style={{ height: 48, padding: "0 24px" }}
                       onClick={() => navigate("/upload")}
                     >
-                      면접 시작하기
+                      학습 시작하기
                     </Button>
                     <Button
                       size="large"
                       style={{ height: 48, padding: "0 24px" }}
-                      onClick={() => navigate("/about")}
+                      onClick={() => navigate("/upload")}
                     >
                       더 알아보기
                     </Button>
@@ -236,7 +231,7 @@ const Home = () => {
               <Paragraph
                 style={{ fontSize: "1.125rem", color: "#4b5563", maxWidth: 768, margin: "0 auto" }}
               >
-                AI 면접관은 최신 인공지능 기술을 활용하여 실전과 같은 면접 환경을 제공합니다.
+                MARU는 최신 인공지능 기술을 활용하여 효과적인 실무 역량 향상을 지원합니다.
               </Paragraph>
             </div>
 
@@ -264,7 +259,7 @@ const Home = () => {
         </div>
 
         {/* How It Works */}
-        <div style={{ ...styles.indigo50, padding: "64px 0" }}>
+        <div style={{ ...styles.indigo50, padding: "64px 24px" }}>
           <div style={styles.container}>
             <div style={{ textAlign: "center", marginBottom: 48 }}>
               <Title level={2} style={{ fontSize: "2rem", marginBottom: 16 }}>
@@ -300,16 +295,16 @@ const Home = () => {
         </div>
 
         {/* Benefits */}
-        <div style={{ padding: "64px 0", background: "white" }}>
+        <div style={{ padding: "64px 24px", background: "white" }}>
           <div style={styles.container}>
             <Row gutter={[48, 48]} align="middle">
               <Col xs={24} md={12}>
                 <Title level={2} style={{ fontSize: "2rem", marginBottom: 16 }}>
-                  AI 면접 연습의 장점
+                  실무 역량 향상의 장점
                 </Title>
                 <Paragraph style={{ fontSize: "1.125rem", color: "#4b5563", marginBottom: 32 }}>
-                  AI 면접관을 통해 얻을 수 있는 다양한 이점들을 확인해보세요. 실전과 같은 환경에서
-                  부담 없이 연습할 수 있습니다.
+                  MARU를 통해 얻을 수 있는 다양한 이점들을 확인해보세요. 체계적인 학습과 실전 경험을
+                  통해 실무 역량을 키울 수 있습니다.
                 </Paragraph>
 
                 <List
@@ -371,7 +366,7 @@ const Home = () => {
                             }}
                           ></div>
                         </div>
-                        <Text style={{ fontSize: 14, color: "#6b7280" }}>AI 면접관</Text>
+                        <Text style={{ fontSize: 14, color: "#6b7280" }}>AI 코치</Text>
                       </div>
                     }
                     style={{ marginBottom: 16 }}
@@ -379,18 +374,18 @@ const Home = () => {
 
                   <Space direction="vertical" style={{ width: "100%" }} size="middle">
                     <div style={styles.chatBubbleAI}>
-                      <Text>자기소개 부탁드립니다.</Text>
+                      <Text>현재 담당하고 계신 업무에 대해 설명해주세요.</Text>
                     </div>
 
                     <div style={styles.chatBubbleUser}>
                       <Text>
-                        안녕하세요, 저는 5년 경력의 프론트엔드 개발자입니다. React와 TypeScript를
-                        주로 사용하며...
+                        프론트엔드 개발자로서 React와 TypeScript를 활용한 웹 애플리케이션 개발을
+                        담당하고 있습니다...
                       </Text>
                     </div>
 
                     <div style={styles.chatBubbleAI}>
-                      <Text>가장 도전적이었던 프로젝트에 대해 말씀해주세요.</Text>
+                      <Text>프론트엔드 성능 최적화 경험에 대해 이야기해볼까요?</Text>
                     </div>
 
                     <div style={{ height: 28, backgroundColor: "#e5e7eb", borderRadius: 4 }}></div>
@@ -402,7 +397,7 @@ const Home = () => {
         </div>
 
         {/* Testimonials */}
-        <div style={{ ...styles.indigo50, padding: "64px 0" }}>
+        <div style={{ ...styles.indigo50, padding: "64px 24px" }}>
           <div style={styles.container}>
             <div style={{ textAlign: "center", marginBottom: 48 }}>
               <Title level={2} style={{ fontSize: "2rem", marginBottom: 16 }}>
@@ -462,39 +457,39 @@ const Home = () => {
         </div>
 
         {/* Statistics */}
-        <div style={{ padding: "64px 0", background: "white" }}>
-          <div style={styles.container}>
-            <Row gutter={[32, 32]}>
-              <Col xs={24} sm={12} md={6}>
+        <div style={{ padding: "64px 0", background: "white", width: "100%" }}>
+          <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", width: "100%" }}>
+            <Row gutter={[32, 32]} justify="center" align="middle">
+              <Col xs={24} sm={12} md={6} style={{ textAlign: "center" }}>
                 <Statistic
-                  title="사용자 만족도"
+                  title={<div style={{ fontSize: "1.1rem", color: "#6b7280" }}>사용자 만족도</div>}
                   value={98}
                   suffix="%"
-                  valueStyle={{ color: "#4f46e5" }}
+                  valueStyle={{ color: "#4f46e5", fontSize: "2rem", fontWeight: "bold" }}
                 />
               </Col>
-              <Col xs={24} sm={12} md={6}>
+              <Col xs={24} sm={12} md={6} style={{ textAlign: "center" }}>
                 <Statistic
-                  title="면접 진행 수"
+                  title={<div style={{ fontSize: "1.1rem", color: "#6b7280" }}>면접 진행 수</div>}
                   value={15000}
                   suffix="+"
-                  valueStyle={{ color: "#4f46e5" }}
+                  valueStyle={{ color: "#4f46e5", fontSize: "2rem", fontWeight: "bold" }}
                 />
               </Col>
-              <Col xs={24} sm={12} md={6}>
+              <Col xs={24} sm={12} md={6} style={{ textAlign: "center" }}>
                 <Statistic
-                  title="취업 성공률"
+                  title={<div style={{ fontSize: "1.1rem", color: "#6b7280" }}>취업 성공률</div>}
                   value={85}
                   suffix="%"
-                  valueStyle={{ color: "#4f46e5" }}
+                  valueStyle={{ color: "#4f46e5", fontSize: "2rem", fontWeight: "bold" }}
                 />
               </Col>
-              <Col xs={24} sm={12} md={6}>
+              <Col xs={24} sm={12} md={6} style={{ textAlign: "center" }}>
                 <Statistic
-                  title="기업 채용 질문"
+                  title={<div style={{ fontSize: "1.1rem", color: "#6b7280" }}>기업 채용 질문</div>}
                   value={500}
                   suffix="+"
-                  valueStyle={{ color: "#4f46e5" }}
+                  valueStyle={{ color: "#4f46e5", fontSize: "2rem", fontWeight: "bold" }}
                 />
               </Col>
             </Row>
@@ -505,7 +500,7 @@ const Home = () => {
         <div style={styles.gradientBg}>
           <div style={{ ...styles.container, padding: "64px 24px", textAlign: "center" }}>
             <Title level={2} style={{ color: "white", marginBottom: 16 }}>
-              지금 바로 면접 연습을 시작하세요
+              지금 바로 성장을 시작하세요
             </Title>
             <Paragraph
               style={{
@@ -515,11 +510,12 @@ const Home = () => {
                 margin: "0 auto 32px",
               }}
             >
-              AI 면접관과 함께 자신감을 키우고 취업 성공률을 높이세요. 이력서 분석부터 맞춤형
+              MARU와 함께 실무 역량을 키우고 커리어를 발전시키세요. 이력서 분석부터 맞춤형
               피드백까지 단 몇 분이면 시작할 수 있습니다.
             </Paragraph>
             <Button
               size="large"
+              onClick={() => navigate("/upload")}
               style={{
                 backgroundColor: "white",
                 color: "#4f46e5",
@@ -537,20 +533,20 @@ const Home = () => {
 
       {/* Footer */}
       <Footer style={{ background: "#111827", padding: "48px 0 24px", width: "100%", margin: 0 }}>
-        <div style={styles.container}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", width: "100%" }}>
           <Row gutter={[48, 32]}>
             <Col xs={24} md={8}>
               <Title level={3} style={{ color: "white", marginBottom: 16 }}>
-                AI 면접관
+                MARU
               </Title>
               <Paragraph style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                AI 기술을 활용한 혁신적인 면접 준비 플랫폼. 맞춤형 질문과 피드백으로 취업 성공을
-                도와드립니다.
+                AI 기술을 활용한 혁신적인 커리어 성장 플랫폼. 맞춤형 학습과 피드백으로 실무 역량
+                향상을 도와드립니다.
               </Paragraph>
             </Col>
 
             <Col xs={24} md={16}>
-              <Row gutter={[24, 24]}>
+              <Row gutter={[24, 24]} justify="end">
                 <Col xs={12} sm={8}>
                   <Title level={5} style={{ color: "white", marginBottom: 16 }}>
                     서비스
@@ -560,10 +556,10 @@ const Home = () => {
                       이력서 분석
                     </Button>
                     <Button type="link" style={{ color: "rgba(255, 255, 255, 0.6)", padding: 0 }}>
-                      AI 면접
+                      AI 코칭
                     </Button>
                     <Button type="link" style={{ color: "rgba(255, 255, 255, 0.6)", padding: 0 }}>
-                      피드백
+                      성장 분석
                     </Button>
                   </Space>
                 </Col>
@@ -606,7 +602,7 @@ const Home = () => {
 
           <div style={{ textAlign: "center" }}>
             <Text style={{ color: "rgba(255, 255, 255, 0.5)" }}>
-              &copy; 2025 AI 면접관. All rights reserved.
+              &copy; 2025 MARU. All rights reserved.
             </Text>
           </div>
         </div>

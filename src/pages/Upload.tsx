@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Upload, Button, message, Typography } from "antd";
-import { CloudUploadOutlined } from "@ant-design/icons";
+import { Upload, Button, message, Typography, Layout, theme } from "antd";
+import { CloudUploadOutlined, RocketOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd/es/upload/interface";
 import usePdfStore from "../store/promptStore";
 import axios from "axios";
@@ -9,6 +9,8 @@ import { Message } from "../types/interview";
 
 const { Dragger } = Upload;
 const { Title, Paragraph } = Typography;
+const { Content } = Layout;
+const { useToken } = theme;
 
 // 상수 정의
 const FILE_SIZE_LIMIT = 10; // MB
@@ -16,7 +18,7 @@ const API_ENDPOINT = "http://10.10.98.81:8080/api/gemini/chat-with-pdf-json";
 
 // 타입 정의
 interface FileUploadResponse {
-  messages: Message[]; // TODO: 실제 메시지 타입 정의 필요
+  messages: Message[];
 }
 
 interface PdfFileData {
@@ -30,6 +32,7 @@ const UploadPage = () => {
   const [encodedFile, setEncodedFile] = useState<string | null>(null);
   const navigate = useNavigate();
   const { setPdfBase64, setMessages, setFileName } = usePdfStore();
+  const { token } = useToken();
 
   // PDF 파일을 Base64로 인코딩하는 함수
   const encodeFileToBase64 = async (file: File): Promise<string> => {
@@ -116,7 +119,7 @@ const UploadPage = () => {
         const encoded = await encodeFileToBase64(file);
         setEncodedFile(encoded);
         setPdfBase64(encoded);
-        console.log("PDF가 Base64로 인코딩되었습니다.");
+        message.success("이력서가 성공적으로 업로드되었습니다.");
       } catch (error) {
         console.error("Base64 인코딩 실패:", error);
         message.error("파일 인코딩에 실패했습니다.");
@@ -130,50 +133,99 @@ const UploadPage = () => {
   };
 
   return (
-    <div
-      className="min-h-screen bg-gradient-to-b from-white to-gray-50 px-4 sm:px-6 md:px-8"
-      style={{ backgroundColor: "#f5f5f5", padding: "24px 84px" }}
-    >
-      <div className="mx-auto flex max-w-4xl flex-col items-center justify-center gap-[24px] py-[80px]">
-        <div className="mb-16 text-center">
-          <Title level={1} className="mb-6 text-4xl font-bold" style={{ fontWeight: 700 }}>
-            이력서 업로드
-          </Title>
-          <Paragraph className="text-xl text-gray-600">
-            PDF 형식의 이력서를 업로드하여 AI 면접을 시작하세요.
-          </Paragraph>
-        </div>
+    <Layout>
+      <Content style={{ minHeight: "100vh", background: token.colorBgContainer, padding: "24px" }}>
+        <div style={{ maxWidth: "800px", margin: "0 auto", padding: "40px 20px" }}>
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <Title
+              level={1}
+              style={{
+                fontSize: "2.5rem",
+                marginBottom: "16px",
+                background: "linear-gradient(to right, #4f46e5, #9333ea)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              AI 코치와 함께하는 첫걸음
+            </Title>
+            <Paragraph
+              style={{
+                fontSize: "1.25rem",
+                color: token.colorTextSecondary,
+                maxWidth: "800px",
+                margin: "0 auto",
+              }}
+            >
+              이력서를 업로드하면 AI 코치가 맞춤형 성장 가이드를 제공합니다.
+              <br />
+              실무 역량 향상을 위한 전문적인 코칭을 시작하세요.
+            </Paragraph>
+          </div>
 
-        <div className="w-full max-w-2xl rounded-2xl bg-white p-10 shadow-lg">
-          <Dragger {...uploadProps} className="mb-8">
-            <div className="p-12">
-              <p className="ant-upload-drag-icon mb-6">
-                <CloudUploadOutlined className="text-6xl text-indigo-600" />
+          <div
+            style={{
+              background: token.colorBgContainer,
+              borderRadius: token.borderRadiusLG,
+              boxShadow: token.boxShadowTertiary,
+              padding: "32px",
+              marginBottom: "24px",
+            }}
+          >
+            <Dragger {...uploadProps} style={{ padding: "40px 20px" }}>
+              <p style={{ marginBottom: "24px" }}>
+                <CloudUploadOutlined style={{ fontSize: "48px", color: token.colorPrimary }} />
               </p>
-              <p className="ant-upload-text mb-4 text-2xl font-medium">
-                PDF 파일을 여기에 드래그하거나 클릭하여 업로드하세요
+              <p
+                style={{
+                  fontSize: "1.5rem",
+                  fontWeight: "500",
+                  marginBottom: "16px",
+                  color: token.colorTextHeading,
+                }}
+              >
+                이력서를 업로드하세요
               </p>
-              <p className="ant-upload-hint text-lg text-gray-500">
-                파일 크기는 {FILE_SIZE_LIMIT}MB를 초과할 수 없습니다.
+              <p
+                style={{
+                  fontSize: "1rem",
+                  color: token.colorTextSecondary,
+                }}
+              >
+                AI 코치가 이력서를 분석하여 맞춤형 성장 전략을 제시합니다
               </p>
-            </div>
-          </Dragger>
-        </div>
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  color: token.colorTextDescription,
+                  marginTop: "8px",
+                }}
+              >
+                PDF 파일만 가능 • 최대 {FILE_SIZE_LIMIT}MB
+              </p>
+            </Dragger>
+          </div>
 
-        <Button
-          type="primary"
-          size="large"
-          onClick={handleUpload}
-          loading={loading}
-          style={{ color: "white", fontSize: "1.125rem", height: "3.5rem" }}
-          disabled={fileList.length === 0}
-          className="mt-4 w-full max-w-2xl rounded-xl"
-          icon={<CloudUploadOutlined style={{ fontSize: "1.25rem" }} />}
-        >
-          업로드 및 분석 시작
-        </Button>
-      </div>
-    </div>
+          <Button
+            type="primary"
+            size="large"
+            onClick={handleUpload}
+            loading={loading}
+            disabled={fileList.length === 0}
+            icon={<RocketOutlined />}
+            style={{
+              width: "100%",
+              height: "50px",
+              fontSize: "1.125rem",
+              background: "linear-gradient(to right, #4f46e5, #9333ea)",
+              borderRadius: token.borderRadiusLG,
+            }}
+          >
+            {loading ? "분석 중..." : "AI 코칭 시작하기"}
+          </Button>
+        </div>
+      </Content>
+    </Layout>
   );
 };
 

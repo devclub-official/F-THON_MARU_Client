@@ -1,28 +1,102 @@
 import { useState } from "react";
-import { Button, Input, Space, Spin } from "antd";
+import {
+  Button,
+  Input,
+  Space,
+  Spin,
+  Typography,
+  Layout,
+  Card,
+  Avatar,
+  Row,
+  Col,
+  Steps,
+  theme,
+  Alert,
+  Tooltip,
+} from "antd";
 import usePromptStore from "../store/promptStore";
 import { Message } from "../types/interview";
 import { sendMessage } from "../api/interview";
 import { useNavigate } from "react-router-dom";
+import {
+  RobotOutlined,
+  SendOutlined,
+  StopOutlined,
+  RightOutlined,
+  LoadingOutlined,
+  BulbOutlined,
+  RocketOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 
 const { TextArea } = Input;
+const { Title, Text, Paragraph } = Typography;
+const { Content } = Layout;
+const { useToken } = theme;
 
 const COMMAND = {
   NEXT: "다음",
   STOP: "멈춰",
 } as const;
 
-const MessageDisplay = ({ content }: { content: string }) => (
-  <div className="rounded-lg bg-gray-50 p-4">
-    <h2 className="text-lg leading-relaxed font-medium text-gray-700">{content}</h2>
-  </div>
-);
+const GuideSteps = [
+  {
+    title: "맞춤형 코칭",
+    description: "AI 코치가 이력서를 기반으로 맞춤형 질문과 피드백을 제공합니다.",
+  },
+  {
+    title: "심층 대화",
+    description: "답변 후 Enter를 누르면 현재 주제에 대해 더 깊이 있는 대화를 이어갑니다.",
+  },
+  {
+    title: "주제 전환",
+    description: "'다음 주제' 버튼으로 다른 역량이나 경험에 대해 이야기할 수 있습니다.",
+  },
+  {
+    title: "성장 분석",
+    description: "코칭이 끝나면 종합적인 역량 분석과 개선 방향을 제시합니다.",
+  },
+];
+
+const MessageDisplay = ({ content }: { content: string }) => {
+  const { token } = useToken();
+
+  return (
+    <Row gutter={16} align="top">
+      <Col>
+        <Avatar
+          size={48}
+          icon={<RobotOutlined />}
+          style={{
+            backgroundColor: token.colorPrimary,
+            boxShadow: token.boxShadowTertiary,
+          }}
+        />
+      </Col>
+      <Col flex="1">
+        <Card
+          bordered={false}
+          style={{
+            backgroundColor: token.colorBgLayout,
+            borderRadius: token.borderRadiusLG,
+          }}
+        >
+          <Space direction="vertical" size="small">
+            <Text type="secondary">AI 커리어 코치</Text>
+            <Paragraph style={{ fontSize: 16, lineHeight: 1.6, margin: 0 }}>{content}</Paragraph>
+          </Space>
+        </Card>
+      </Col>
+    </Row>
+  );
+};
 
 const LoadingIndicator = () => (
-  <div className="flex items-center space-x-2 text-blue-600">
-    <Spin size="small" />
-    <span className="text-sm">처리중...</span>
-  </div>
+  <Space>
+    <Spin indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />} />
+    <Text type="secondary">AI 코치가 답변을 분석하고 있습니다...</Text>
+  </Space>
 );
 
 const Interview = () => {
@@ -30,6 +104,7 @@ const Interview = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { messages, setMessages, fileName, pdfBase64 } = usePromptStore();
   const navigate = useNavigate();
+  const { token } = useToken();
 
   const handleMessageSend = async (content: string) => {
     if (isLoading) return;
@@ -50,7 +125,6 @@ const Interview = () => {
       if (content === COMMAND.STOP) navigate("/result");
     } catch (error) {
       console.error("메시지 전송 중 에러 발생:", error);
-      // TODO: 에러 처리 UI 추가
     } finally {
       setIsLoading(false);
     }
@@ -66,63 +140,179 @@ const Interview = () => {
 
   const lastAssistantMessage =
     messages.filter((message: Message) => message.role === "assistant").at(-1)?.content ||
-    "답변을 기다리는 중...";
+    "AI 코치가 이력서를 분석하고 있습니다...";
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-50 p-4 md:p-6">
-      <div className="mx-auto max-w-4xl">
-        <div className="rounded-xl bg-white p-6 shadow-lg transition-all duration-300 hover:shadow-xl">
-          <div className="mb-6 space-y-4">
-            <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-gray-800">면접 진행중</h1>
-              {isLoading && <LoadingIndicator />}
+    <Layout>
+      <Content
+        style={{
+          minHeight: "100vh",
+          background: token.colorBgContainer,
+          padding: "24px",
+        }}
+      >
+        <Row justify="center">
+          <Col xs={24} sm={24} md={20} lg={16} xl={14}>
+            <div style={{ textAlign: "center", marginBottom: "32px" }}>
+              <Title
+                level={2}
+                style={{
+                  fontSize: "2.5rem",
+                  marginBottom: "16px",
+                  background: "linear-gradient(to right, #4f46e5, #9333ea)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                AI 코치와 함께하는 성장 대화
+              </Title>
+              <Paragraph
+                style={{
+                  fontSize: "1.25rem",
+                  color: token.colorTextSecondary,
+                  maxWidth: "800px",
+                  margin: "0 auto",
+                }}
+              >
+                실무 경험과 기술 역량에 대해 이야기하며
+                <br />
+                구체적인 성장 방향을 찾아보세요
+              </Paragraph>
             </div>
-            <MessageDisplay content={lastAssistantMessage} />
-          </div>
 
-          <div className="space-y-4">
-            <TextArea
-              rows={6}
-              value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
-              placeholder="답변을 입력해주세요. Enter 키를 눌러 제출하세요."
-              className="w-full rounded-lg border-2 border-gray-200 p-4 transition-all duration-200 focus:border-blue-500 focus:shadow-md"
+            <Card
               style={{
-                resize: "none",
-                fontSize: "1rem",
-                backgroundColor: isLoading ? "#f5f5f5" : "white",
+                marginBottom: "24px",
+                borderRadius: token.borderRadiusLG,
+                boxShadow: token.boxShadowTertiary,
               }}
-              onKeyDown={handleKeyDown}
-              disabled={isLoading}
-            />
+              title={
+                <Space>
+                  <BulbOutlined style={{ color: token.colorPrimary }} />
+                  <Text strong>코칭 가이드</Text>
+                </Space>
+              }
+            >
+              <Steps
+                direction="vertical"
+                size="small"
+                items={GuideSteps.map((step) => ({
+                  title: step.title,
+                  description: step.description,
+                  status: "process",
+                }))}
+              />
+            </Card>
 
-            <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-500">
-                {isLoading ? "답변 처리중..." : "답변을 입력하거나 다음 질문으로 넘어가세요."}
-              </div>
-              <Space size="middle">
-                <Button
-                  onClick={() => handleMessageSend(COMMAND.STOP)}
-                  disabled={isLoading}
-                  className="hover:bg-red-50"
-                  danger
+            <Card
+              bordered={false}
+              style={{
+                borderRadius: token.borderRadiusLG,
+                boxShadow: token.boxShadowTertiary,
+              }}
+              bodyStyle={{ padding: "24px" }}
+            >
+              <Space direction="vertical" size="large" style={{ width: "100%" }}>
+                <Alert
+                  message="현재 진행 중인 주제"
+                  description={
+                    <Space direction="vertical">
+                      <Text>구체적인 경험과 기술을 바탕으로 답변해주세요.</Text>
+                      <Text type="secondary">
+                        💡 Enter를 눌러 답변하면 더 깊이 있는 대화를 이어갑니다
+                      </Text>
+                    </Space>
+                  }
+                  type="info"
+                  showIcon
+                  icon={<InfoCircleOutlined style={{ color: token.colorPrimary }} />}
+                  style={{
+                    marginBottom: 24,
+                    borderRadius: token.borderRadiusLG,
+                  }}
+                />
+
+                <Card
+                  style={{
+                    backgroundColor: token.colorBgLayout,
+                    borderRadius: token.borderRadiusLG,
+                  }}
                 >
-                  종료
-                </Button>
-                <Button
-                  type="primary"
-                  onClick={() => handleMessageSend(COMMAND.NEXT)}
-                  disabled={isLoading}
-                  className="bg-blue-500 hover:bg-blue-600"
-                >
-                  다음
-                </Button>
+                  <MessageDisplay content={lastAssistantMessage} />
+                </Card>
+
+                <div>
+                  <div style={{ position: "relative" }}>
+                    <TextArea
+                      value={answer}
+                      onChange={(e) => setAnswer(e.target.value)}
+                      placeholder="답변을 입력하고 Enter를 누르면 AI 코치와 심층 대화를 이어갑니다."
+                      autoSize={{ minRows: 3, maxRows: 6 }}
+                      onKeyDown={handleKeyDown}
+                      disabled={isLoading}
+                      style={{
+                        marginBottom: 16,
+                        fontSize: 16,
+                        paddingRight: "30px",
+                        borderRadius: token.borderRadiusLG,
+                        borderColor: token.colorBorder,
+                      }}
+                    />
+                    <Tooltip title="Enter를 눌러 답변하면 현재 주제에 대해 더 깊이 있는 대화를 나눕니다">
+                      <InfoCircleOutlined
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "10px",
+                          color: token.colorTextSecondary,
+                        }}
+                      />
+                    </Tooltip>
+                  </div>
+
+                  <Row justify="space-between" align="middle">
+                    <Col>{isLoading ? <LoadingIndicator /> : null}</Col>
+                    <Col>
+                      <Space>
+                        <Tooltip title="코칭을 종료하고 종합 피드백을 확인합니다">
+                          <Button
+                            danger
+                            icon={<StopOutlined />}
+                            onClick={() => handleMessageSend(COMMAND.STOP)}
+                            disabled={isLoading}
+                            style={{
+                              borderRadius: token.borderRadiusLG,
+                              height: "40px",
+                            }}
+                          >
+                            코칭 종료
+                          </Button>
+                        </Tooltip>
+                        <Tooltip title={answer.trim() ? "답변 제출하기" : "다음 주제로 넘어가기"}>
+                          <Button
+                            type="primary"
+                            icon={answer.trim() ? <SendOutlined /> : <RightOutlined />}
+                            onClick={() => handleMessageSend(answer.trim() ? answer : COMMAND.NEXT)}
+                            disabled={isLoading}
+                            style={{
+                              background: "linear-gradient(to right, #4f46e5, #9333ea)",
+                              borderRadius: token.borderRadiusLG,
+                              height: "40px",
+                            }}
+                          >
+                            {answer.trim() ? "답변 제출" : "다음 주제"}
+                          </Button>
+                        </Tooltip>
+                      </Space>
+                    </Col>
+                  </Row>
+                </div>
               </Space>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Card>
+          </Col>
+        </Row>
+      </Content>
+    </Layout>
   );
 };
 

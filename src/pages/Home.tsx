@@ -268,7 +268,7 @@ const Home = () => {
               <Paragraph
                 style={{ fontSize: "1.125rem", color: "#4b5563", maxWidth: 768, margin: "0 auto" }}
               >
-                간단한 3단계로 AI 면접 준비를 시작하세요
+                간단한 3단계로 AI 코칭 준비를 시작하세요
               </Paragraph>
             </div>
 
@@ -406,7 +406,7 @@ const Home = () => {
               <Paragraph
                 style={{ fontSize: "1.125rem", color: "#4b5563", maxWidth: 768, margin: "0 auto" }}
               >
-                AI 면접관을 통해 취업에 성공한 사용자들의 이야기를 들어보세요.
+                AI 코치를 통해 취업에 성공한 사용자들의 이야기를 들어보세요.
               </Paragraph>
             </div>
 
@@ -470,7 +470,7 @@ const Home = () => {
               </Col>
               <Col xs={24} sm={12} md={6} style={{ textAlign: "center" }}>
                 <Statistic
-                  title={<div style={{ fontSize: "1.1rem", color: "#6b7280" }}>면접 진행 수</div>}
+                  title={<div style={{ fontSize: "1.1rem", color: "#6b7280" }}>코칭 진행 수</div>}
                   value={15000}
                   suffix="+"
                   valueStyle={{ color: "#4f46e5", fontSize: "2rem", fontWeight: "bold" }}

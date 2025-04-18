@@ -24,11 +24,13 @@ import {
   BulbOutlined,
 } from "@ant-design/icons";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Paragraph, Text } = Typography;
 const { Header, Content, Footer } = Layout;
 
 const Home = () => {
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -167,7 +169,7 @@ const Home = () => {
               </Title>
             </Col>
             <Col>
-              <Button type="primary" size="large">
+              <Button type="primary" size="large" onClick={() => navigate("/upload")}>
                 시작하기
               </Button>
             </Col>
@@ -202,10 +204,19 @@ const Home = () => {
                     피드백으로 면접 성공률을 높여드립니다.
                   </Paragraph>
                   <Space size="middle" className="justify-center">
-                    <Button type="primary" size="large" style={{ height: 48, padding: "0 24px" }}>
+                    <Button
+                      type="primary"
+                      size="large"
+                      style={{ height: 48, padding: "0 24px" }}
+                      onClick={() => navigate("/upload")}
+                    >
                       면접 시작하기
                     </Button>
-                    <Button size="large" style={{ height: 48, padding: "0 24px" }}>
+                    <Button
+                      size="large"
+                      style={{ height: 48, padding: "0 24px" }}
+                      onClick={() => navigate("/about")}
+                    >
                       더 알아보기
                     </Button>
                   </Space>

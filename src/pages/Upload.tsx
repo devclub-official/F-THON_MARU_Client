@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Upload, Button, message, Typography } from "antd";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
-import usePdfStore from "../store/pdfStore.ts";
+import usePdfStore from "../store/promptStore";
+import axios from "axios";
 
 const { Dragger } = Upload;
 const { Title, Paragraph } = Typography;
@@ -13,7 +14,7 @@ const UploadPage = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [encodedFile, setEncodedFile] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { setPdf } = usePdfStore(); // Zustand 스토어 사용
+  const { setPdfBase64, setMessages, setFileName } = usePdfStore(); // Zustand 스토어 사용
 
   // PDF 파일을 Base64로 인코딩하는 함수
   const encodeFileToBase64 = (file: File): Promise<string> => {
@@ -44,17 +45,20 @@ const UploadPage = () => {
 
     setLoading(true);
     try {
-      // 인코딩된 파일을 Zustand 스토어에 저장
-      console.log(encodedFile);
-      if (encodedFile) {
-        setPdf(encodedFile);
-      }
-      // TODO: 인코딩된 파일(encodedFile)을 API로 전송
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      message.success("파일이 성공적으로 업로드되었습니다.");
+      const response = await axios.post("http://10.10.98.81:8080/api/gemini/chat-with-pdf-json", {
+        messages: [],
+        pdfFileData: {
+          name: fileList[0].name,
+          content: encodedFile,
+        },
+      });
+
+      setMessages(response.data.messages);
+      setFileName(fileList[0].name);
+
       navigate("/interview");
-    } catch (error) {
-      message.error("파일 업로드에 실패했습니다.");
+    } catch (err) {
+      console.error("API 호출 중 오류가 발생했습니다:", err);
     } finally {
       setLoading(false);
     }
@@ -81,6 +85,7 @@ const UploadPage = () => {
       encodeFileToBase64(file)
         .then((encoded) => {
           setEncodedFile(encoded);
+          setPdfBase64(encoded);
           console.log("PDF가 Base64로 인코딩되었습니다.");
         })
         .catch((error) => {
@@ -91,7 +96,7 @@ const UploadPage = () => {
       return false;
     },
     onChange: (info: any) => {
-      setFileList(info.fileList);
+      setFileList([info.file]);
     },
   };
 

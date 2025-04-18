@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import Upload from "./pages/Upload";
 import Interview from "./pages/Interview";
 import Result from "./pages/Result";
-import "./App.css";
 
 const queryClient = new QueryClient();
 

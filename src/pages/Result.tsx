@@ -1,16 +1,10 @@
 import { Button, Card, Progress, Space, Typography } from "antd";
-import {
-  DownloadOutlined,
-  HomeOutlined,
-  CheckCircleOutlined,
-  WarningOutlined,
-  BookOutlined,
-} from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { DownloadOutlined } from "@ant-design/icons";
+import { useEffect } from "react";
 
-const { Title, Paragraph } = Typography;
+const { Title, Text } = Typography;
 
-interface SkillAssessment {
+interface SkillAnalysis {
   skill: string;
   score: number;
   strengths: string[];
@@ -18,133 +12,137 @@ interface SkillAssessment {
   recommendations: string[];
 }
 
-const ResultPage = () => {
-  const navigate = useNavigate();
-
-  // TODO: API에서 받아올 결과 데이터
-  const assessments: SkillAssessment[] = [
+const Result = () => {
+  // 임시 데이터
+  const analysis: SkillAnalysis[] = [
     {
       skill: "React",
       score: 85,
-      strengths: ["Virtual DOM에 대한 이해도가 높음", "컴포넌트 설계 능력이 우수함"],
-      weaknesses: ["성능 최적화에 대한 이해가 부족", "상태 관리에 대한 경험이 제한적"],
+      strengths: ["Virtual DOM에 대한 깊은 이해", "Hooks 활용 능력이 뛰어남"],
+      weaknesses: ["성능 최적화에 대한 이해가 부족", "상태 관리 라이브러리 경험이 제한적"],
       recommendations: [
-        "React.memo와 useMemo 사용법 학습",
-        "Redux 또는 Context API 활용 경험 쌓기",
+        "React Query나 SWR 같은 데이터 페칭 라이브러리 학습",
+        "React.memo와 useMemo, useCallback의 적절한 사용법 학습",
       ],
     },
     {
       skill: "TypeScript",
       score: 75,
       strengths: ["기본적인 타입 시스템 이해", "인터페이스 활용 능력"],
-      weaknesses: ["제네릭 활용이 미흡", "유틸리티 타입 사용 경험 부족"],
-      recommendations: ["TypeScript 공식 문서의 제네릭 섹션 학습", "유틸리티 타입 활용 예제 실습"],
+      weaknesses: ["제네릭 활용이 미흡", "유틸리티 타입에 대한 이해가 부족"],
+      recommendations: ["TypeScript의 고급 기능 학습", "실제 프로젝트에서 타입 시스템 적극 활용"],
     },
   ];
 
   const handleDownload = () => {
-    // TODO: PDF 생성 및 다운로드 기능 구현
+    window.print();
+    console.log("PDF 다운로드");
   };
 
+  // 인쇄 시 버튼 숨김을 위한 스타일 추가
+  useEffect(() => {
+    // 인쇄 관련 스타일을 동적으로 추가
+    const style = document.createElement("style");
+    style.innerHTML = `
+      @media print {
+        .no-print {
+          display: none !important;
+        }
+        
+        /* 인쇄 시 배경색과 그림자 표시를 위한 설정 */
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        
+        /* 페이지 여백 조정 */
+        @page {
+          size: A4;
+          margin: 15mm;
+        }
+        
+        /* 인쇄 시 전체 너비 활용 */
+        .ant-card {
+          width: 100% !important;
+          break-inside: avoid;
+        }
+        
+        /* 인쇄 시 배경색 설정 */
+        body {
+          background-color: white !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // 컴포넌트 언마운트 시 스타일 제거
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-      <div className="mx-auto max-w-5xl px-4 py-12">
-        <div className="mb-12 text-center">
-          <Title level={2} className="mb-4 text-3xl font-bold">
-            면접 결과 분석
-          </Title>
-          <Paragraph className="text-lg text-gray-600">
-            AI 면접관이 분석한 기술 스택별 평가 결과입니다.
-          </Paragraph>
-        </div>
+    <div className="min-h-screen bg-gray-50 p-[16px]">
+      <div className="mx-auto max-w-4xl">
+        <Title level={2} className="mt-[0px] text-center">
+          기술 면접 결과 분석
+        </Title>
 
-        <div className="space-y-6">
-          {assessments.map((assessment) => (
-            <Card key={assessment.skill} className="rounded-xl bg-white shadow-sm">
-              <div className="mb-6 flex items-center justify-between">
-                <Title level={3} className="mb-0">
-                  {assessment.skill}
-                </Title>
-                <Progress
-                  type="circle"
-                  percent={assessment.score}
-                  width={80}
-                  strokeColor="#4f46e6"
-                />
+        <Space direction="vertical" size="large" className="w-full">
+          {analysis.map((item) => (
+            <Card key={item.skill} className="w-full">
+              <div className="mb-[16px] flex items-center justify-between">
+                <h2 className="my-[0px]">{item.skill}</h2>
               </div>
-
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                <div>
-                  <div className="mb-4 flex items-center">
-                    <CheckCircleOutlined className="mr-2 text-xl text-green-500" />
-                    <Title level={4} className="mb-0">
-                      강점
-                    </Title>
+              <div className="flex justify-between">
+                <div className="flex flex-col space-y-4 text-left">
+                  <div>
+                    <Text strong>강점:</Text>
+                    <ul className="list-inside list-disc">
+                      {item.strengths.map((strength, index) => (
+                        <li key={index}>{strength}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-2">
-                    {assessment.strengths.map((strength, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="mt-2 mr-2 h-1.5 w-1.5 rounded-full bg-green-500" />
-                        <span className="text-gray-700">{strength}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
 
-                <div>
-                  <div className="mb-4 flex items-center">
-                    <WarningOutlined className="mr-2 text-xl text-yellow-500" />
-                    <Title level={4} className="mb-0">
-                      개선 필요 사항
-                    </Title>
+                  <div>
+                    <Text strong>개선 필요 사항:</Text>
+                    <ul className="list-inside list-disc">
+                      {item.weaknesses.map((weakness, index) => (
+                        <li key={index}>{weakness}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-2">
-                    {assessment.weaknesses.map((weakness, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="mt-2 mr-2 h-1.5 w-1.5 rounded-full bg-yellow-500" />
-                        <span className="text-gray-700">{weakness}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
 
-              <div className="mt-8">
-                <div className="mb-4 flex items-center">
-                  <BookOutlined className="mr-2 text-xl text-indigo-500" />
-                  <Title level={4} className="mb-0">
-                    학습 추천
-                  </Title>
+                  <div>
+                    <Text strong>추천 사항:</Text>
+                    <ul className="list-inside list-disc">
+                      {item.recommendations.map((rec, index) => (
+                        <li key={index}>{rec}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <ul className="space-y-2">
-                  {assessment.recommendations.map((rec, index) => (
-                    <li key={index} className="flex items-start">
-                      <span className="mt-2 mr-2 h-1.5 w-1.5 rounded-full bg-indigo-500" />
-                      <span className="text-gray-700">{rec}</span>
-                    </li>
-                  ))}
-                </ul>
+                <Progress type="circle" percent={item.score} width={200} />
               </div>
             </Card>
           ))}
-        </div>
 
-        <div className="mt-12 flex justify-center space-x-4">
-          <Button icon={<HomeOutlined />} onClick={() => navigate("/")} className="h-10 px-6">
-            홈으로
-          </Button>
-          <Button
-            type="primary"
-            icon={<DownloadOutlined />}
-            onClick={handleDownload}
-            className="h-10 px-6"
-          >
-            결과 PDF 다운로드
-          </Button>
-        </div>
+          {/* no-print 클래스 추가로 인쇄 시 버튼이 표시되지 않음 */}
+          <div className="no-print mt-6 flex justify-center">
+            <Button
+              type="primary"
+              icon={<DownloadOutlined />}
+              size="large"
+              onClick={handleDownload}
+            >
+              결과 PDF 다운로드
+            </Button>
+          </div>
+        </Space>
       </div>
     </div>
   );
 };
 
-export default ResultPage;
+export default Result;

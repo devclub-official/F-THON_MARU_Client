@@ -93,9 +93,10 @@ src/
 
 ## 👥 팀원
 
-- 개발자 1 - [GitHub](https://github.com/username)
-- 개발자 2 - [GitHub](https://github.com/username)
-- 개발자 3 - [GitHub](https://github.com/username)
+- 개발자 1 - 우도경
+- 개발자 2 - 정환민
+- 개발자 3 - 류창민
+- 개발자 4 - 김민재
 
 ## 📞 문의하기
 

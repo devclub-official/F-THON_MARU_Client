@@ -36,12 +36,22 @@ const Result = () => {
   const [feedbackData, setFeedbackData] = useState(null);
   const [isButtonsVisible, setIsButtonsVisible] = useState(true);
   const navigate = useNavigate();
-  const { messages, parsedResult, setParsedResult } = usePromptStore();
+  const { messages, parsedResult, setParsedResult, fileName } = usePromptStore();
 
-  // 파싱된 결과 처리
+  useEffect(() => {
+    const defaultFileName = fileName
+      ? `${fileName}_테스트결과_${new Date().toISOString().split("T")[0]}`
+      : `테스트결과_${new Date().toISOString().split("T")[0]}`;
+
+    document.title = defaultFileName;
+
+    return () => {
+      document.title = "테스트 결과";
+    };
+  }, [fileName]);
+
   useEffect(() => {
     if (parsedResult) {
-      console.log("스토어에서 파싱된 데이터 사용:", parsedResult);
       processResult(parsedResult);
     } else if (messages && messages.length > 0) {
       try {
@@ -78,7 +88,6 @@ const Result = () => {
     }
   }, [messages, parsedResult, setParsedResult, navigate]);
 
-  // 결과 데이터 처리
   const processResult = (result) => {
     setFeedbackData({
       candidateInfo: {
@@ -106,7 +115,6 @@ const Result = () => {
     });
   };
 
-  // 인쇄 이벤트 감지
   useEffect(() => {
     const beforePrintHandler = () => setIsButtonsVisible(false);
     const afterPrintHandler = () => setIsButtonsVisible(true);
@@ -120,12 +128,10 @@ const Result = () => {
     };
   }, []);
 
-  // 로딩 상태 처리
   if (!feedbackData) {
     return <div>로딩 중...</div>;
   }
 
-  // 스킬 레벨 결정 함수
   function getSkillLevel(skillName) {
     switch (skillName) {
       case "HTML":
@@ -143,7 +149,6 @@ const Result = () => {
     }
   }
 
-  // 점수 부여 함수
   function getSkillScore(skillName) {
     switch (skillName) {
       case "HTML":
@@ -161,7 +166,6 @@ const Result = () => {
     }
   }
 
-  // 점수 색상 결정
   const getScoreColor = (score) => {
     if (score >= 85) return "success";
     if (score >= 70) return "processing";
@@ -169,7 +173,6 @@ const Result = () => {
     return "error";
   };
 
-  // 점수 텍스트 결정
   const getScoreText = (score) => {
     if (score >= 85) return "우수";
     if (score >= 70) return "양호";
@@ -177,11 +180,12 @@ const Result = () => {
     return "미흡";
   };
 
-  // 버튼 핸들러
   const handleDashboardClick = () => navigate("/");
-  const handlePrintPDF = () => window.print();
 
-  // 퀴즈 결과 렌더링
+  const handlePrintPDF = () => {
+    window.print();
+  };
+
   const renderQuizResults = () => {
     const { correct, incorrect } = feedbackData.quiz;
 
@@ -378,7 +382,6 @@ const Result = () => {
             <Empty description="기술 역량 평가 데이터가 없습니다" />
           )}
         </div>
-        {/* 퀴즈 결과 */}
         {renderQuizResults()}
         <Row gutter={16}>
           <Col span={24}>
